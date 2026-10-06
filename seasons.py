@@ -23,7 +23,9 @@ def load_seasons(path):
             start, end = int(row["start_month"]), int(row["end_month"])
             seasons.append({
                 "name": row["season"],
+                "alt_name": row["alt_name"],
                 "months": months_in_season(start, end),
+                "short": row["short"],
                 "description": row["description"],
                 "source": row["source"],
             })

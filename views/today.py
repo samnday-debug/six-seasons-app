@@ -18,6 +18,7 @@ def cached_weather():
 
 st.title(f"It's {season['name']}")
 st.caption(today.strftime("%A %d %B %Y") + " · Perth")
+st.write(season["short"])
 
 weather = cached_weather()
 if weather is None:
