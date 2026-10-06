@@ -1,6 +1,8 @@
-Season,Alt season name,Type,Noongar name,Common name,Scientific name,Why it is associated with the season,Association type,Source
-Birak,Birak,Fauna,Marany,Marron,Cherax cainii,Marron are seasonally available around freshwater environments,Seasonal resource,
-Birak,Birak,Fauna,Mederong,Mullet,,"Mullet are caught along coasts, rivers and estuaries",Seasonal resource,
+Season,Alt season name,Type,Noongar name,Common name,Scientific name,Seasonal description,Association type,
+Birak,Birak,Fauna,Marany,Marron,Cherax cainii,Marron feature among the freshwater foods associated with Birak. Their presence connects the warm, drying season with the rivers and pools that support aquatic life.,Traditional easonal resource,
+
+Birak,Birak,Fauna,Mederong,Mullet,,Mullet form part of the fishing resources associated with Birak along the coast, rivers and estuaries. They provide a connection between the season and life around waterways.,Traditional seasonal resource,
+
 Birak,Birak,Fauna,Paarndi,Bream,,Bream are caught in coastal/estuarine environments,Seasonal resource,
 Boonaroo,Bunuru,Flora,Djiridji,Zamia,Macrozamia riedlei,Large cones develop and seeds ripen from green to red,Fruiting/ripening,
 Boonaroo,Bunuru,Flora,Djaraly,Jarrah,Eucalyptus marginata,White flowers are prominent during Bunuru,Flowering,
