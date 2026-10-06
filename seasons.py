@@ -2,6 +2,8 @@
 import csv
 from datetime import date
 
+import pandas as pd
+
 
 def months_in_season(start, end):
     """List the months in a season, wrapping past December.
@@ -44,7 +46,46 @@ def season_for_date(d, seasons):
             return s
 
 
+def load_weather(path):
+    """Load the cleaned BOM data, starting from the first full year (1945)."""
+    df = pd.read_csv(path, parse_dates=["date"])
+    return df[df["date"] >= "1945-01-01"]
+
+
+def add_season_columns(df, seasons):
+    """Label every day with its season and 'season year'.
+
+    December counts towards the NEXT year's Birak, so Dec 2024 + Jan 2025
+    are grouped as one season (Birak 2025) instead of being split.
+    """
+    lookup = {m: s["name"] for s in seasons for m in s["months"]}
+    wrap_months = {m for s in seasons if s["months"][0] > s["months"][-1]
+                   for m in s["months"] if m >= s["months"][0]}
+    df = df.copy()
+    df["season"] = df["date"].dt.month.map(lookup)
+    df["season_year"] = df["date"].dt.year + df["date"].dt.month.isin(wrap_months).astype(int)
+    return df
+
+
+def season_summary(df):
+    """Average max/min temp and average total rainfall for each season."""
+    # Total rain for each individual season (e.g. Birak 1990, Birak 1991...)
+    per_season = df.groupby(["season", "season_year"]).agg(
+        rain=("rainfall_mm", "sum"), days=("date", "count"))
+    # Skip incomplete seasons (start/end of the record) - a full one is ~59-62 days
+    per_season = per_season[per_season["days"] >= 55]
+
+    summary = df.groupby("season").agg(avg_max=("max_temp_c", "mean"),
+                                       avg_min=("min_temp_c", "mean"))
+    summary["avg_rain"] = per_season.groupby("season")["rain"].mean()
+    return summary.round(1)
+
+
 if __name__ == "__main__":
     seasons = load_seasons("data/seasons.csv")
     for test in [date(2025, 12, 25), date(2026, 1, 15), date(2026, 6, 1), date(2026, 10, 6)]:
         print(test, "->", season_for_date(test, seasons)["name"])
+
+    weather = add_season_columns(load_weather("data/perth_daily_clean.csv"), seasons)
+    print()
+    print(season_summary(weather))
