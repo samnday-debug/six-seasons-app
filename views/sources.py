@@ -11,9 +11,9 @@ st.markdown("""
 https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar
 - **Flora and fauna seasonal signs:** City of Stirling, *Native Plants and Habitats*,
 https://www.stirling.wa.gov.au/waste-and-environment/natural-environment-and-conservation/native-plants-and-habitats
-# Marine Waters, *Fact Sheet: The Noongar Six Seasons*,
+ Marine Waters, *Fact Sheet: The Noongar Six Seasons*,
 https://marinewaters.fish.wa.gov.au/resource/fact-sheet-the-noongar-six-seasons/
-# Noongar Boodjar Language Cultural Aboriginal Corporation, *Noongar Boodjar Plants and Animals*,
+ Noongar Boodjar Language Cultural Aboriginal Corporation, *Noongar Boodjar Plants and Animals*,
 https://profiles.ala.org.au/opus/noongar
 - **Season names and months:** Bureau of Meteorology, *Indigenous Weather Knowledge – Nyoongar calendar*,
   https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar
