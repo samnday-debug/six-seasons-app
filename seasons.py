@@ -116,16 +116,40 @@ def linear_trend(points):
 # ---------- Flora & fauna ----------
 
 def load_signs(path, seasons):
-    """Load the flora/fauna seasonal signs and check the season names match."""
-    df = pd.read_csv(path).fillna("")
+    """Load signs, resolving alternate spellings and slash-separated seasons."""
+    df = pd.read_csv(path, encoding="utf-8-sig").fillna("")
+    df.columns = df.columns.str.strip()
+    description = "Why it is associated with the season"
+    if description not in df.columns and "Seasonal description" in df.columns:
+        df = df.rename(columns={"Seasonal description": description})
     for col in df.columns:
         df[col] = df[col].astype(str).str.strip()
 
-    known = {s["name"] for s in seasons}
-    unknown = set(df["Season"]) - known
+    # Use the spellings already defined in seasons.csv, keeping the app's
+    # primary names for filtering and links between species cards.
+    lookup = {}
+    for season in seasons:
+        for name in (season["name"], season["alt_name"]):
+            if name.strip():
+                lookup[name.strip().casefold()] = season["name"]
+
+    unknown = set()
+    resolved = []
+    for label in df["Season"]:
+        names = []
+        for part in label.split("/"):
+            name = lookup.get(part.strip().casefold())
+            if name is None:
+                unknown.add(part.strip())
+            elif name not in names:
+                names.append(name)
+        resolved.append(names)
     if unknown:
-        raise ValueError(f"Unknown season names in signs file: {unknown}")
-    return df
+        raise ValueError(f"Unknown season names in signs file: {sorted(unknown)}")
+    # Alternate spellings produce one entry; distinct seasons produce one
+    # entry each, so a species can appear in both relevant season panels.
+    df["Season"] = resolved
+    return df.explode("Season", ignore_index=True)
 
 
 def other_seasons(signs, scientific_name, this_season):
