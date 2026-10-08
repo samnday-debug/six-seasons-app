@@ -65,18 +65,20 @@ else:
             if day_season["name"] != season["name"]:
                 st.caption(f"→ {day_season['name']}")   # week crosses into a new season
 
-    # Line chart of the week's max and min
+        # Line chart of the week's max and min
     df = pd.DataFrame(week)
     df["date"] = pd.to_datetime(df["date"])
-    long = df.melt(id_vars="date", value_vars=["max_temp", "min_temp"],
-                   var_name="Measure", value_name="°C")
+    df["day"] = df["date"].dt.strftime("%a %d")          # e.g. "Thu 08"
+    long = df.melt(id_vars=["date", "day"], value_vars=["max_temp", "min_temp"],
+                   var_name="Measure", value_name="Temp")
     long["Measure"] = long["Measure"].map({"max_temp": "Max", "min_temp": "Min"})
+
     chart = alt.Chart(long).mark_line(point=True).encode(
-        x=alt.X("date:T", title=None, axis=alt.Axis(format="%a %d", tickCount="day")),
-        y=alt.Y("°C:Q", scale=alt.Scale(zero=False),
-                axis=alt.Axis(titleAngle=0, titleY=-12, titleX=-10)),
+        x=alt.X("day:O", title=None, sort=list(df["day"]), axis=alt.Axis(labelAngle=0)),
+        y=alt.Y("Temp:Q", title=None, scale=alt.Scale(zero=False),
+                axis=alt.Axis(labelExpr="datum.label + '°C'")),
         color=alt.Color("Measure:N", scale=alt.Scale(range=["#c44536", "#3b6ea5"])),
-        tooltip=[alt.Tooltip("date:T", format="%a %d %b"), "Measure", "°C"],
+        tooltip=["day", "Measure", alt.Tooltip("Temp:Q", title="°C", format=".1f")],
     )
     st.altair_chart(chart, width="stretch")
     st.caption("Forecast from Open-Meteo for Perth Airport.")
