@@ -94,7 +94,7 @@ for i, s in enumerate(seasons):
 
 # ---------- 2. Season wheel ----------
 st.divider()
-st.subheader("Six seasons vs four")
+st.subheader("Six seasons vs Four seasons")
 st.write("**Outer ring:** Noongar seasons · **Inner ring:** European seasons. "
          "Hover over the wheel to compare. This month is highlighted.")
 
