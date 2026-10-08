@@ -2,6 +2,9 @@ from datetime import date, datetime
 from zoneinfo import ZoneInfo
 import altair as alt
 import streamlit as st
+from ui import apply_style, banner
+
+apply_style()
 from seasons import (load_seasons, season_for_date, load_weather, add_season_columns,
                      season_summary, load_signs, other_seasons,
                      EUROPEAN_SEASONS, month_table)
@@ -50,8 +53,7 @@ def show_signs(rows, all_signs, season_name):
 
 @st.dialog("Season details", width="large")
 def show_season(s, stats, all_signs):
-    st.header(s["name"])
-    st.caption(f"{month_range(s)} · also spelt {s['alt_name']}")
+    banner("Season details", s["name"], f"{month_range(s)} · also spelt {s['alt_name']}")
     st.write(s["description"])
 
     st.subheader("Average weather at Perth Airport (1945–today)")
@@ -85,42 +87,48 @@ order = [s["name"] for s in seasons]
 
 # ---------- 1. Six season boxes ----------
 st.title("Season Explorer")
-st.write("Hover over a season for a quick summary, or click it to learn more.")
+st.caption("Explore the six seasons, their weather and recorded plants and animals.")
+banner("Current season · Perth", current["name"], month_range(current))
+st.subheader("Explore a season")
 
-cols = st.columns(3)
-for i, s in enumerate(seasons):
-    with cols[i % 3]:
-        label = f"**{s['name']}**  \n{month_range(s)}"
-        if s["name"] == current["name"]:
-            label += "  \n(now)"
-        if st.button(label, key=s["name"], help=s["short"], width="stretch",
-                     type="primary" if s["name"] == current["name"] else "secondary"):
-            show_season(s, summary.loc[s["name"]], signs)
+for start in (0, 3):
+    cols = st.columns(3)
+    for col, s in zip(cols, seasons[start:start + 3]):
+        with col:
+            with st.container(border=True):
+                is_current = s["name"] == current["name"]
+                st.caption("CURRENT SEASON" if is_current else "NOONGAR SEASON")
+                st.subheader(s["name"])
+                st.caption(month_range(s))
+                if st.button("Explore " + s["name"], key=s["name"], help=s["short"], width="stretch",
+                             type="primary" if is_current else "secondary"):
+                    show_season(s, summary.loc[s["name"]], signs)
 
 # ---------- 2. Season wheel ----------
-st.divider()
-st.subheader("Six seasons vs four")
-st.write("**Outer ring:** Noongar seasons · **Inner ring:** European seasons. "
-         "Hover over the wheel to compare. This month is highlighted.")
-
-months = month_table(seasons)
-highlight = alt.condition(alt.datum.month_num == today.month, alt.value(1.0), alt.value(0.45))
-base = alt.Chart(months).encode(
-    theta=alt.Theta("value:Q", stack=True),
-    order=alt.Order("pos:Q"),
-    opacity=highlight,
-    tooltip=[alt.Tooltip("month:N", title="Month"),
-             alt.Tooltip("noongar:N", title="Noongar season"),
-             alt.Tooltip("european:N", title="European season")],
-)
-outer = base.mark_arc(innerRadius=120, outerRadius=180, stroke="white").encode(
-    color=alt.Color("noongar:N", title="Noongar",
-                    scale=alt.Scale(domain=order, range=NOONGAR_COLOURS)))
-inner = base.mark_arc(innerRadius=55, outerRadius=115, stroke="white").encode(
-    color=alt.Color("european:N", title="European",
-                    scale=alt.Scale(domain=list(EUROPEAN_SEASONS), range=EUROPEAN_COLOURS)))
-labels = base.mark_text(radius=200, fontSize=12).encode(text="month:N")
-wheel = (alt.layer(outer, inner, labels)
-         .resolve_scale(color="independent")
-         .properties(width=440, height=440))
-st.altair_chart(wheel)
+with st.container(border=True):
+    st.subheader("Six seasons vs four")
+    st.write("**Outer ring:** Noongar seasons · **Inner ring:** European seasons. "
+             "Hover over the wheel to compare. This month is highlighted.")
+    
+    months = month_table(seasons)
+    highlight = alt.condition(alt.datum.month_num == today.month, alt.value(1.0), alt.value(0.45))
+    base = alt.Chart(months).encode(
+        theta=alt.Theta("value:Q", stack=True),
+        order=alt.Order("pos:Q"),
+        opacity=highlight,
+        tooltip=[alt.Tooltip("month:N", title="Month"),
+                 alt.Tooltip("noongar:N", title="Noongar season"),
+                 alt.Tooltip("european:N", title="European season")],
+    )
+    outer = base.mark_arc(innerRadius=120, outerRadius=180, stroke="white").encode(
+        color=alt.Color("noongar:N", title="Noongar",
+                        scale=alt.Scale(domain=order, range=NOONGAR_COLOURS)))
+    inner = base.mark_arc(innerRadius=55, outerRadius=115, stroke="white").encode(
+        color=alt.Color("european:N", title="European",
+                        scale=alt.Scale(domain=list(EUROPEAN_SEASONS), range=EUROPEAN_COLOURS)))
+    labels = base.mark_text(radius=200, fontSize=12).encode(text="month:N")
+    wheel = (alt.layer(outer, inner, labels)
+             .resolve_scale(color="independent")
+             .properties(width=440, height=440)
+             .configure_view(stroke=None))
+    st.altair_chart(wheel)
