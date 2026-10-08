@@ -8,16 +8,20 @@ PARAMS = {
     "current": "temperature_2m,precipitation",
     "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum",
     "timezone": "Australia/Perth",
-    "forecast_days": 1,
 }
+
+
+def _fetch(days):
+    """Ask Open-Meteo for a forecast covering this many days."""
+    response = requests.get(URL, params={**PARAMS, "forecast_days": days}, timeout=5)
+    response.raise_for_status()          # error if not 200 OK
+    return response.json()
 
 
 def get_live_weather():
     """Return today's weather as a dict, or None if anything goes wrong."""
     try:
-        response = requests.get(URL, params=PARAMS, timeout=5)
-        response.raise_for_status()          # error if not 200 OK
-        data = response.json()
+        data = _fetch(1)
         return {
             "current_temp": data["current"]["temperature_2m"],
             "max_temp": data["daily"]["temperature_2m_max"][0],
@@ -29,6 +33,24 @@ def get_live_weather():
         return None    # no internet, API down, or unexpected response
 
 
+def get_week_forecast():
+    """Return a list of 7 daily forecasts, or None if anything goes wrong."""
+    try:
+        daily = _fetch(7)["daily"]
+        week = []
+        for i, day in enumerate(daily["time"]):
+            week.append({
+                "date": day,
+                "max_temp": daily["temperature_2m_max"][i],
+                "min_temp": daily["temperature_2m_min"][i],
+                "rain_mm": daily["precipitation_sum"][i],
+            })
+        return week
+    except (requests.RequestException, KeyError, IndexError, ValueError, TypeError):
+        return None
+
+
 if __name__ == "__main__":
     print(get_live_weather())
-    
+    for day in get_week_forecast() or []:
+        print(day)
