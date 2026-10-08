@@ -28,7 +28,7 @@ streamlit run app.py
 ```
 python -m pytest -v
 ```
-20 automated tests cover the main functions, the season algorithm, boundary dates,
+22 automated tests cover the main functions, the season algorithm, boundary dates,
 invalid input and the app's behaviour when live weather is unavailable.
 
 ## Rebuild the cleaned data (optional)
