@@ -70,7 +70,12 @@ def show_season(s, stats, all_signs):
     with tab2:
         show_signs(fauna, all_signs, s["name"])
 
-    st.caption(f"Source: {s['source']} · Weather: Bureau of Meteorology")
+    source = str(s.get("source") or "").strip()
+    if source.lower() in {"", "none", "nan"}:
+        source_label = "Seasonal references: see Sources & About"
+    else:
+        source_label = f"Seasonal source: {source}"
+    st.caption(f"{source_label} · Weather: Bureau of Meteorology")
 
 
 seasons, summary, signs = get_data()
@@ -119,18 +124,3 @@ wheel = (alt.layer(outer, inner, labels)
          .resolve_scale(color="independent")
          .properties(width=440, height=440))
 st.altair_chart(wheel)
-
-# ---------- 3. Seasonal signs chart ----------
-st.divider()
-st.subheader("Plants and animals recorded for each season")
-counts = signs.groupby(["Season", "Type"]).size().reset_index(name="Count")
-chart = alt.Chart(counts).mark_bar().encode(
-    x=alt.X("Season:N", sort=order, title=None, axis=alt.Axis(labelAngle=0)),
-    y=alt.Y("Count:Q", title="Number recorded"),
-    color=alt.Color("Type:N", scale=alt.Scale(range=["#4c9a5f", "#c8743a"])),
-    xOffset="Type:N",
-    tooltip=["Season", "Type", "Count"],
-)
-st.altair_chart(chart, width="stretch")
-st.caption("Based on our seasonal signs dataset. Fewer entries means less was recorded "
-           "in our sources, not that fewer species are present.")

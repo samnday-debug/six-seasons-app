@@ -15,7 +15,3 @@ Tool used: Claude (Anthropic), via the Claude desktop app.
 ## What we rejected or changed
 - AI was **not** used to write any cultural, language or historical content (season descriptions,
   flora/fauna information). This was sourced by us from published sources.
-- ADD your own examples of things you changed, fixed or chose not to use.
-
-## What we learned
-- ADD (each team member, in your own words)

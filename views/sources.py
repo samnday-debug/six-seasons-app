@@ -3,14 +3,18 @@ import streamlit as st
 st.title("Sources & About")
 
 st.header("Acknowledgement")
-st.write("ADD: Acknowledgement of Country (e.g. use UWA's official wording and cite it).")
+st.write("The University of Western Australia (UWA) formally acknowledges the traditional custodians of the lands on which its operations and campuses stand, recognizing the Whadjuk Noongar people in Perth (Boorloo) and the Menang Noongar people in Albany (Kinjarling).")
 
 st.header("Seasonal knowledge")
 st.markdown("""
-- **Season descriptions:** ADD source name, organisation and link
-- **Flora and fauna seasonal signs:** ADD source(s) and links
+- **Season descriptions:** Bureau of Meterology, *Indigenous Weather Knowledge – Nyoongar calendar*,
+https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar
+- **Flora and fauna seasonal signs:** City of Stirling, *Native Plants and Habitats*,https://www.stirling.wa.gov.au/waste-and-environment/natural-environment-and-conservation/native-plants-and-habitats,
+ Marine Waters, *Fact Sheet: The Noongar Six Seasons*,https://marinewaters.fish.wa.gov.au/resource/fact-sheet-the-noongar-six-seasons/,
+ Noongar Boodjar Language Cultural Aboriginal Corporation, *Noongar Boodjar Plants and Animals*,https://profiles.ala.org.au/opus/noongar
 - **Season names and months:** Bureau of Meteorology, *Indigenous Weather Knowledge – Nyoongar calendar*,
   https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar
+
 
 Season names have more than one spelling (e.g. Bunuru/Boonaroo). We use the spelling from our main source
 and show the alternative in each season's details.
@@ -39,4 +43,4 @@ st.write("This app does not collect, store or ask for any personal information. 
          "It has no logins and uses no API keys.")
 
 st.header("Team")
-st.write("ADD names · CITS1501, University of Western Australia, 2026 · ADD GitHub link")
+st.write("Sam Day + Sol Manners · CITS1501, University of Western Australia, 2026 · https://github.com/samnday-debug/six-seasons-app")
