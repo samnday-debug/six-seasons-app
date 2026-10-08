@@ -72,8 +72,9 @@ else:
                    var_name="Measure", value_name="°C")
     long["Measure"] = long["Measure"].map({"max_temp": "Max", "min_temp": "Min"})
     chart = alt.Chart(long).mark_line(point=True).encode(
-        x=alt.X("date:T", title=None, axis=alt.Axis(format="%a %d")),
-        y=alt.Y("°C:Q", scale=alt.Scale(zero=False)),
+        x=alt.X("date:T", title=None, axis=alt.Axis(format="%a %d", tickCount="day")),
+        y=alt.Y("°C:Q", scale=alt.Scale(zero=False),
+                axis=alt.Axis(titleAngle=0, titleY=-12, titleX=-10)),
         color=alt.Color("Measure:N", scale=alt.Scale(range=["#c44536", "#3b6ea5"])),
         tooltip=[alt.Tooltip("date:T", format="%a %d %b"), "Measure", "°C"],
     )
