@@ -121,10 +121,33 @@ def test_other_seasons_blank_name_returns_empty(seasons):
     assert core.other_seasons(signs, "", "Mookaroo") == []
 
 
-# ---------- Failure case: no internet ----------
+# ---------- Failure cases: no internet / API responses ----------
 
 def test_live_weather_returns_none_when_offline(monkeypatch):
     def fail(*args, **kwargs):
         raise requests.ConnectionError("no internet")
     monkeypatch.setattr(weather.requests, "get", fail)
     assert weather.get_live_weather() is None
+
+
+def test_week_forecast_returns_none_when_offline(monkeypatch):
+    def fail(*args, **kwargs):
+        raise requests.ConnectionError("no internet")
+    monkeypatch.setattr(weather.requests, "get", fail)
+    assert weather.get_week_forecast() is None
+
+
+def test_week_forecast_parses_response(monkeypatch):
+    class FakeResponse:
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {"daily": {"time": ["2026-10-08", "2026-10-09"],
+                              "temperature_2m_max": [25.0, 27.5],
+                              "temperature_2m_min": [12.0, 13.1],
+                              "precipitation_sum": [0.0, 2.4]}}
+    monkeypatch.setattr(weather.requests, "get", lambda *a, **k: FakeResponse())
+    week = weather.get_week_forecast()
+    assert len(week) == 2
+    assert week[1] == {"date": "2026-10-09", "max_temp": 27.5, "min_temp": 13.1, "rain_mm": 2.4}

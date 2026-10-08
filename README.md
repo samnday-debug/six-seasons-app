@@ -16,7 +16,7 @@ its plants and animals, and analyses 80 years of Perth weather to see how each s
 
 ## Install and run
 ```
-git clone ADD-REPO-URL
+git clone https://github.com/samnday-debug/six-seasons-app.git
 cd six-seasons-app
 python3 -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
@@ -71,7 +71,7 @@ flowchart LR
 ## Data sources
 - Bureau of Meteorology, Climate Data Online: Perth Airport (009021) daily max/min temperature and rainfall
 - Open-Meteo forecast API (live weather)
-- Seasonal knowledge: ADD sources (see Sources & About page)
+- Seasonal knowledge: Bureau of Meteorology Nyoongar calendar; City of Stirling; Marine Waters (DPIRD) Noongar Six Seasons fact sheet; Noongar Boodjar Language Cultural Aboriginal Corporation (full links on the Sources & About page)
 
 ## Security and privacy
 No personal data is collected, there are no logins, and no API keys or passwords are used or stored.
