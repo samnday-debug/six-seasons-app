@@ -70,7 +70,12 @@ def show_season(s, stats, all_signs):
     with tab2:
         show_signs(fauna, all_signs, s["name"])
 
-    st.caption(f"Source: {s['source']} · Weather: Bureau of Meteorology")
+    source = str(s.get("source") or "").strip()
+    if source.lower() in {"", "none", "nan"}:
+        source_label = "Seasonal references: see Sources & About"
+    else:
+        source_label = f"Seasonal source: {source}"
+    st.caption(f"{source_label} · Weather: Bureau of Meteorology")
 
 
 seasons, summary, signs = get_data()
@@ -94,7 +99,7 @@ for i, s in enumerate(seasons):
 
 # ---------- 2. Season wheel ----------
 st.divider()
-st.subheader("Six seasons vs Four seasons")
+st.subheader("Six seasons vs four")
 st.write("**Outer ring:** Noongar seasons · **Inner ring:** European seasons. "
          "Hover over the wheel to compare. This month is highlighted.")
 
