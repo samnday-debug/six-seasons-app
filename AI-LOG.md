@@ -33,5 +33,3 @@ Tool used: Claude (Anthropic), via the Claude desktop app.
 
 ## What we learned
 Sam: I learned how to structure an app so the logic is separate from the interface, which made it much easier to test. I got much more comfortable with Git, especially pulling before pushing and fixing conflicts. Using AI sped things up a lot, but I learned I still had to run and check everything. A few suggestions didn’t work first time, and I had to understand the code to fix them. I also learned why timezones matter when an app runs on a server in another country.
-
-Sol: (their own: e.g. researching and checking cultural sources, why spellings vary between sources, cleaning data in a CSV, using GitHub, why the AI rule matters for cultural knowledge, etc.)
