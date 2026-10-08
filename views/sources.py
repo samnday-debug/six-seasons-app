@@ -3,7 +3,7 @@ import streamlit as st
 st.title("Sources & About")
 
 st.header("Acknowledgement")
-st.write("ADD: Acknowledgement of Country (e.g. use UWA's official wording and cite it).")
+st.write("The University of Western Australia (UWA) formally acknowledges the traditional custodians of the lands on which its operations and campuses stand, recognizing the Whadjuk Noongar people in Perth (Boorloo) and the Menang Noongar people in Albany (Kinjarling).")
 
 st.header("Seasonal knowledge")
 st.markdown("""
@@ -43,4 +43,4 @@ st.write("This app does not collect, store or ask for any personal information. 
          "It has no logins and uses no API keys.")
 
 st.header("Team")
-st.write("ADD names · CITS1501, University of Western Australia, 2026 · ADD GitHub link")
+st.write("Sam Day + Sol Manners · CITS1501, University of Western Australia, 2026 · https://github.com/samnday-debug/six-seasons-app")
