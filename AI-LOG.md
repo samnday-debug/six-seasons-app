@@ -9,7 +9,7 @@ Tool used: Claude (Anthropic), via the Claude desktop app.
 | 6 Oct | Help with Git/GitHub setup and fixing a "divergent branches" sync error | Followed the steps | Checked commits appeared on GitHub |
 | 6 Oct | Code for live weather (`weather.py`), season lookup and averages (`seasons.py`), and the four pages | Used with changes (e.g. our own season spellings, removed a "six vs four" statistic we didn't want) | Ran each part on its own (`python seasons.py`), checked results made sense (Mookaroo wettest, Boonaroo hottest), tested with Wi-Fi off |
 | 6 Oct | Reformat our flora/fauna spreadsheet into a clean CSV | AI fixed formatting, spelling and season names only. All cultural content was found and written by us from published sources | Compared the cleaned file against our original |
-| 6 Oct | Automated tests | Used, and ran them | All 20 pass; checked each test matches a real edge case |
+| 6 Oct | Automated tests | Used, and ran them | All 22 pass; checked each test matches a real edge case |
 | 6 Oct | Help deploying to Streamlit Community Cloud | Followed the steps | Opened the live link in a private window |
 | 8 Oct | 7-day forecast, chart label fix, page styling (ui.py) and weather icons/hourly forecast | Used; first axis fix didn't work so we tried a second approach; updated tests when weather.py changed | Ran the app locally and live, all 22 tests pass |
 
